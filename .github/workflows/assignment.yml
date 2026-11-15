@@ -1,0 +1,50 @@
+name: Java assignment evidence
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'assignment 2/**/*.java'
+      - 'assignment 2/Task*/analysis.md'
+      - 'assignment 2/run.sh'
+      - 'assignment 2/generate_report.py'
+      - '.github/workflows/assignment.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: assignment-evidence
+  cancel-in-progress: false
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Compile and execute Q1 to Q7
+        run: bash 'assignment 2/run.sh'
+      - name: Generate measured report and output screenshots
+        run: python3 'assignment 2/generate_report.py'
+      - name: Upload execution evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: assignment-2-evidence
+          path: |
+            assignment 2/Task*/results/
+            assignment 2/REPORT.md
+            assignment 2/environment.txt
+            assignment 2/compilation.txt
+          if-no-files-found: error
+      - name: Commit generated evidence
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add 'assignment 2/Task01/results' 'assignment 2/Task02/results' 'assignment 2/Task03/results' 'assignment 2/Task04/results' 'assignment 2/Task05/results' 'assignment 2/Task06/results' 'assignment 2/Task07/results' 'assignment 2/REPORT.md' 'assignment 2/environment.txt' 'assignment 2/compilation.txt'
+          if ! git diff --cached --quiet; then
+            git commit -m 'Record actual Java execution evidence and measured report'
+            git pull --rebase origin main
+            git push origin HEAD:main
+          fi

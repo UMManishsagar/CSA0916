@@ -63,8 +63,8 @@ public class Triage {
         for(Deque<Patient> bucket:buckets) while(!bucket.isEmpty()) bucketOrder.add(bucket.removeFirst().name);
         Bench.require(linkedOrder.equals(expected)&&bucketOrder.equals(expected),"Alternative order");
         List<Patient> waiting=Arrays.asList(new Patient("OldMinor",5,0),new Patient("NewCritical",1,50));
-        Bench.require(aged(waiting,0,10).peek().name.equals("NewCritical"),"Initial severity");
-        Bench.require(aged(waiting,50,10).peek().name.equals("OldMinor"),"Aging promotion");
+        Bench.require(aged(waiting,50,100).peek().name.equals("NewCritical"),"Initial severity");
+        Bench.require(aged(waiting,500,100).peek().name.equals("OldMinor"),"Aging promotion");
         System.out.println("Aging: OldMinor reaches priority 1 and wins arrival tie after waiting.");
         try(Bench b=new Bench("Task06")) {
             for(int n:new int[]{100,10000,100000}) {
