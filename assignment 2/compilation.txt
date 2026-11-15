@@ -1,0 +1,7 @@
+Task03/Attendance.java:23: warning: [overrides] Class BrokenStudent overrides equals, but neither it nor any superclass overrides hashCode method
+    static final class BrokenStudent {
+                 ^
+Task03/Attendance.java:46: warning: [try] auto-closeable resource b is never referenced in body of corresponding try statement
+        try(Bench b=new Bench("Task03")) {
+                  ^
+2 warnings

@@ -1,0 +1,11 @@
+Heap storage view (not a sorted report): [P2(S1), P4(S1), P3(S2), P1(S3), P5(S5), P6(S2), P7(S4), P8(S3)]
+Hand prediction: [P2, P4, P3, P6, P1, P8, P7, P5]; observed: [P2, P4, P3, P6, P1, P8, P7, P5]
+Aging: OldMinor reaches priority 1 and wins arrival tie after waiting.
+Task06 | Java 21.0.13 | Linux | CPUs=4
+PriorityQueue_admit n=100 ops=100 mean=662.92 ns/op
+PriorityQueue_serve n=100 ops=100 mean=611.93 ns/op
+PriorityQueue_admit n=10000 ops=10000 mean=68.06 ns/op
+PriorityQueue_serve n=10000 ops=10000 mean=161.06 ns/op
+PriorityQueue_admit n=100000 ops=100000 mean=29.05 ns/op
+PriorityQueue_serve n=100000 ops=100000 mean=252.85 ns/op
+Correctness: hand order, FIFO ties, alternatives, invalid/empty and aging PASS.
